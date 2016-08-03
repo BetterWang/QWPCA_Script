@@ -9,13 +9,14 @@ using namespace std;
 typedef std::complex<double> Complex;
 const int NETA = 48;
 
-void process(int s1 = 0, int n = 2)
+void process(int s1 = 0, int N = 2)
 {
-	cout << " s1 = " << s1 << "\tn = " << n << endl;
-	//addchain(s1);
+	cout << " s1 = " << s1 << "\tN = " << N << endl;
+	addchain(s1);
 
-	chV->Add("test/pca.root/QWPCA/trV");
+	//chV->Add("../PCA/HIMinimumBias2/crab_HIMB2_PCA_pixel_noeff_v4/160721_182208/0000/pca_99.root/QWPCA/trV");
 	chV->SetMakeClass(1);
+	TH1::SetDefaultSumw2();
 
 
 	int Cent;
@@ -41,29 +42,74 @@ void process(int s1 = 0, int n = 2)
 	chV->SetBranchAddress("mult", &Mult);
 	chV->SetBranchAddress("pQetaW", &pQetaW);
 
-	chV->SetBranchStatus(Form("pQeta%i",n), 1);
-	chV->SetBranchStatus(Form("pQeta%i._real",n), 1);
-	chV->SetBranchStatus(Form("pQeta%i._imag",n), 1);
+	chV->SetBranchStatus(Form("pQeta%i",N), 1);
+	chV->SetBranchStatus(Form("pQeta%i._real",N), 1);
+	chV->SetBranchStatus(Form("pQeta%i._imag",N), 1);
 
-	chV->SetBranchAddress(Form("pQeta%i",n), &pQeta2_);
-	chV->SetBranchAddress(Form("pQeta%i._real",n), rQeta2);
-	chV->SetBranchAddress(Form("pQeta%i._imag",n), iQeta2);
+	chV->SetBranchAddress(Form("pQeta%i",N), &pQeta2_);
+	chV->SetBranchAddress(Form("pQeta%i._real",N), rQeta2);
+	chV->SetBranchAddress(Form("pQeta%i._imag",N), iQeta2);
 
-	Complex QetaM2[200][48][48];
-	Complex QetaM2w2[200][48][48];
 
 	TH1D * hCent = new TH1D("hCent", "hCent", 200, 0, 200);
 	TH1D * hMult = new TH1D("hMult", "hMult", 800, 0, 8000);
 
+	TH1D * hQ1Dr[NETA];
+	TH1D * hQ1Di[NETA];
+	TH1D * hQ1Dw[NETA];
+	for ( int i = 0; i < NETA; i++ ) {
+		hQ1Dr[i] = new TH1D(Form("hQ1Dr_%i", i), "", 200, 0 , 200);
+		hQ1Di[i] = new TH1D(Form("hQ1Di_%i", i), "", 200, 0 , 200);
+		hQ1Dw[i] = new TH1D(Form("hQ1Dw_%i", i), "", 200, 0 , 200);
+	}
+
+	TH1D * hQ2Dr[NETA][NETA] = {};
+	TH1D * hQ2Di[NETA][NETA] = {};
+	TH1D * hQ2Dw[NETA][NETA] = {};
+	for ( int i = 0; i < NETA; i++ ) {
+		for ( int j = i; j < NETA; j++ ) {
+			hQ2Dr[i][j] = new TH1D(Form("hQ2Dr_%i_%i", i, j), "", 200, 0, 200);
+			hQ2Di[i][j] = new TH1D(Form("hQ2Di_%i_%i", i, j), "", 200, 0, 200);
+			hQ2Dw[i][j] = new TH1D(Form("hQ2Dw_%i_%i", i, j), "", 200, 0, 200);
+		}
+	}
+
 	int ievt = 0;
 	while (chV->GetEntry(ievt++)) {
-		if ( ievt % 100 == 0 ) cout << " ! ievt = " << ievt << endl;
+		if ( ievt % 10000 == 0 ) cout << " ! ievt = " << ievt << endl;
 		Complex Qeta2[48];
 		hCent->Fill(Cent);
 		hMult->Fill(Mult);
 
 		for ( int i = 0; i < NETA; i++ ) {
 			Qeta2[i] = Complex(rQeta2[i], iQeta2[i]);
+			hQ1Dr[i]->Fill(Cent+1, rQeta2[i]);
+			hQ1Di[i]->Fill(Cent+1, iQeta2[i]);
+			hQ1Dw[i]->Fill(Cent+1, (*pQetaW)[i]);
+		}
+		for ( int i = 0; i < NETA; i++ ) {
+			for ( int j = i; j < NETA; j++ ) {
+				Complex c = Qeta2[i] * conj(Qeta2[j]);
+				double w = (*pQetaW)[i] * (*pQetaW)[j];
+				hQ2Dr[i][j]->Fill(Cent+1, c.real());
+				hQ2Di[i][j]->Fill(Cent+1, c.imag());
+				hQ2Dw[i][j]->Fill(Cent+1, w);
+			}
 		}
 	}
+
+
+	TFile * fsave = new TFile(Form("%s/output_%i.root", ftxt[s1], N), "recreate");
+	for ( int i = 0; i < NETA; i++ ) {
+		hQ1Dr[i]->Write();
+		hQ1Di[i]->Write();
+		hQ1Dw[i]->Write();
+		for ( int j = i; j < NETA; j++ ) {
+			hQ2Dr[i][j]->Write();
+			hQ2Di[i][j]->Write();
+			hQ2Dw[i][j]->Write();
+		}
+	}
+	hCent->Write();
+	hMult->Write();
 }
