@@ -24,12 +24,12 @@ void process(int s1 = 0, int N = 2)
 	int Mult;
 
 	Int_t           pQeta2_;
-	Int_t           pQeta3_;
-	Int_t           pQeta4_;
+//	Int_t           pQeta3_;
+//	Int_t           pQeta4_;
 	Double_t	rQeta2[NETA];
 	Double_t	iQeta2[NETA];
 
-	Double_t	wQeta[NETA];
+//	Double_t	wQeta[NETA];
 
 	vector<double>  *pQetaW = 0;
 
@@ -117,4 +117,5 @@ void process(int s1 = 0, int N = 2)
 	}
 	hCent->Write();
 	hMult->Write();
+	fsave->Close();
 }
