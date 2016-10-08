@@ -8,12 +8,12 @@
 #include "Math/Factory.h"
 #include "Math/Functor.h"
 #include "Math/WrappedFunction.h"
+#include "Fit/ParameterSettings.h"
 
 typedef std::complex<double> Complex;
 const int NETA = 48;
 const int NETA2 = 24;
 const int N_GAP = 10;
-
 
 
 class GlobalChi2 {
@@ -95,7 +95,7 @@ double GlobalChi2::operator() ( const double * x ) {
    //   GSLSimAn
    //   Genetic
 
-void bFit(int s1 = 1, int N = 2, const char * minName = "Minuit2", const char *algoName = "")
+void bFit(int s1 = 3, int N = 2, const char * minName = "Minuit2", const char *algoName = "")
 {
 	cout << " s1 = " << s1 << " N = " << N << endl;
 
@@ -106,40 +106,51 @@ void bFit(int s1 = 1, int N = 2, const char * minName = "Minuit2", const char *a
 	TH2D * hConvI[NCent] = {};
 	TH2D * hConvW[NCent] = {};
 
+	TH1D * hQ1DwRebin[NETA2] = {};
+
 	for ( int c = 0; c < NCent; c++ ) {
 		hConvR[c] = (TH2D*) f->Get(Form("hConvR_%i", c));
 		hConvI[c] = (TH2D*) f->Get(Form("hConvI_%i", c));
 		hConvW[c] = (TH2D*) f->Get(Form("hConvW_%i", c));
 	}
 
+	for ( int i = 0; i < NETA2; i++ ) {
+		hQ1DwRebin[i] = (TH1D*) f->Get(Form("hQ1DwRebin_%i", i));
+	}
+	TH1D * hMult[NCent] = {};
+	for ( int c = 0; c < NCent; c++ ) {
+		hMult[c] = new TH1D(Form("hMult_%i", c), "", NETA2, -2.4, 2.4);
+		for ( int i = 0; i < NETA2; i++ ) {
+			hMult[c]->SetBinContent(i+1, hQ1DwRebin[i]->GetBinContent(c+1));
+			hMult[c]->SetBinError(i+1, hQ1DwRebin[i]->GetBinError(c+1));
+		}
+	}
+
+
 	double vn_start[NCent][NETA2] = {};
 	for ( int c = 0; c < NCent; c++ ) {
 		for ( int i = 0; i < NETA2; i++ ) {
 			double V = hConvR[c]->GetBinContent(i+1, i+1);
 			double W = hConvW[c]->GetBinContent(i+1, i+1);
-			//vn_start[c][i] = sqrt(V/W);
 			vn_start[c][i] = sqrt(V);
 		}
 	}
 
-//	TH1D * hVn[3][3][NCent] = {};
-//	TH1D * hVnSym[3][3][NCent] = {};
-//	for ( int c = 0; c < NCent; c++ ) {
-//		hVn[c] = new TH1D(Form("hVn_%i", c), "", NETA2, -2.4, 2.4);
-//		for ( int i = 0; i < NETA2; i++ ) {
-//			hVn[c]->SetBinContent(i+1, vn_start[c][i]);
-//		}
-//	}
+	TH1D * hVn[NCent] = {};
+	for ( int c = 0; c < NCent; c++ ) {
+		hVn[c] = new TH1D(Form("hVn_%i", c), "", NETA2, -2.4, 2.4);
+	}
 
 	// prepare fit
 	ROOT::Math::Minimizer* pmin;
 	pmin = ROOT::Math::Factory::CreateMinimizer(minName, algoName);
 	pmin->SetMaxFunctionCalls(1000000); // for Minuit/Minuit2
 	pmin->SetMaxIterations(10000);  // for GSL
-	pmin->SetTolerance(0.001);
+	pmin->SetTolerance(0.0001);
 	pmin->SetPrintLevel(0);
 
 	for ( int c = 0; c < NCent; c++ ) {
+//	for ( int c = 3; c < 4; c++ ) {
 		cout << " ! Fitting for cent = " << c << endl;
 
 		GlobalChi2 gChi2_1(hConvR[c], N_GAP, 1, false);
@@ -165,6 +176,13 @@ void bFit(int s1 = 1, int N = 2, const char * minName = "Minuit2", const char *a
 		pmin->Minimize();
 		cout << "    ! Norder = 1, no sym" << endl;
 		pmin->PrintResults();
+		for ( int i = 0; i < NETA2; i++ ) {
+			ROOT::Fit::ParameterSettings par;
+			pmin->GetVariableSettings(i, par);
+			hVn[c]->SetBinContent(i+1, par.Value());
+			hVn[c]->SetBinError(i+1, par.StepSize());
+		}
+		hVn[c]->Divide(hMult[c]);
 
 		/*
 		/////
@@ -215,11 +233,10 @@ void bFit(int s1 = 1, int N = 2, const char * minName = "Minuit2", const char *a
 		*/
 	}
 
-
-
 	// save
-//	TFile * fsave = new TFile(Form("%s/outputFit_%i.root", ftxt[s1], N), "recreate");
-//	for ( int c = 0; c < NCent; c++ ) {
-//		hVn[c]->Write();
-//	}
+	TFile * fsave = new TFile(Form("%s/outputFit_%s_%s_%i.root", ftxt[s1], minName, algoName, N), "recreate");
+	for ( int c = 0; c < NCent; c++ ) {
+		hVn[c]->Write();
+		hMult[c]->Write();
+	}
 }
