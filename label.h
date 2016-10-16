@@ -11,7 +11,7 @@ char const * fname[] = {
 	"../PCA/HIMinimumBias2/crab_HIMB2_PCA_pixel_noeff_v8/161006_185132/0000/",				// 5 PbPb15 HIMB2 official pix 1.0 < pT < 5.0 noeff
 	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_noeff_v1/161010_144827/0000/",				// 6 HIMB5 pp reco 0.3 < pT < 3.0 noeff
 	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_GEN_v1/161012_131811/0000/",		// 7 Hydjet GEN 0.3 < pT < 3.0 noeff
-	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_pixel_eff_v1/161014_110518/0000/",		// 8 Hydjet pixel 0.3 < pT < 3.0 eff
+	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_pixel_eff_v2/161014_160213/0000/",		// 8 Hydjet pixel 0.3 < pT < 3.0 eff
 };
 
 char const * ftxt[] = {
