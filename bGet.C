@@ -4,6 +4,7 @@
 typedef std::complex<double> Complex;
 const int NETA = 48;
 const int NETA2 = 24;
+
 void bGet(int s1 = 1, int N = 2)
 {
 	cout << " s1 = " << s1 << " N = " << N << endl;
