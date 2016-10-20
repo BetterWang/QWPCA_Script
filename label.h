@@ -13,6 +13,8 @@ char const * fname[] = {
 	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_GEN_v1/161012_131811/0000/",		// 7 Hydjet GEN 0.3 < pT < 3.0 noeff
 	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_pixel_eff_v2/161014_160213/0000/",		// 8 Hydjet pixel 0.3 < pT < 3.0 eff
 	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_eff_noff_v4/161019_180642/0000/",				// 9 PbPb15 HIMB5 noff 0.3 < pT < 3.0 eff
+	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_eff_noff_pT0550_v4/161020_081102/0000/",			// 10 PbPb15 HIMB5 noff 0.5 < pT < 5.0 eff
+	"../PCA/PAHighPt/crab_pPb5_PCA_eff_noff_v1/161020_073626/0000/",					// 11 pPb5 HM noff 0.3 < pT < 3.0 eff
 };
 
 char const * ftxt[] = {
@@ -26,6 +28,8 @@ char const * ftxt[] = {
 	"txt/Hydjet_PCA_GEN_noeff_v1/",				// 7
 	"txt/Hydjet_PCA_pixel_eff_v1/",				// 8
 	"txt/HIMB5_PCA_ppReco_eff_noff_v4/",			// 9
+	"txt/HIMB5_PCA_ppReco_eff_noff_pT0550_v4/",		// 10
+	"txt/HM_pPb5_eff_noff/",				// 11
 };
 
 void addchain(int s1)
