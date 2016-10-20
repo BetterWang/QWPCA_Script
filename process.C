@@ -52,16 +52,16 @@ void process(int s1 = 0, int N = 2)
 	chV->SetBranchAddress(Form("pQeta%i._imag",N), iQeta2);
 
 
-	TH1D * hCent = new TH1D("hCent", "hCent", 200, 0, 200);
+	TH1D * hCent = new TH1D("hCent", "hCent", 2000, 0, 2000);
 	TH1D * hMult = new TH1D("hMult", "hMult", 800, 0, 8000);
 
 	TH1D * hQ1Dr[NETA2];
 	TH1D * hQ1Di[NETA2];
 	TH1D * hQ1Dw[NETA2];
 	for ( int i = 0; i < NETA2; i++ ) {
-		hQ1Dr[i] = new TH1D(Form("hQ1Dr_%i", i), "", 200, 0 , 200);
-		hQ1Di[i] = new TH1D(Form("hQ1Di_%i", i), "", 200, 0 , 200);
-		hQ1Dw[i] = new TH1D(Form("hQ1Dw_%i", i), "", 200, 0 , 200);
+		hQ1Dr[i] = new TH1D(Form("hQ1Dr_%i", i), "", 2000, 0 , 2000);
+		hQ1Di[i] = new TH1D(Form("hQ1Di_%i", i), "", 2000, 0 , 2000);
+		hQ1Dw[i] = new TH1D(Form("hQ1Dw_%i", i), "", 2000, 0 , 2000);
 	}
 
 	TH1D * hQ2Dr[NETA2][NETA2] = {};
@@ -69,9 +69,9 @@ void process(int s1 = 0, int N = 2)
 	TH1D * hQ2Dw[NETA2][NETA2] = {};
 	for ( int i = 0; i < NETA2; i++ ) {
 		for ( int j = i; j < NETA2; j++ ) {
-			hQ2Dr[i][j] = new TH1D(Form("hQ2Dr_%i_%i", i, j), "", 200, 0, 200);
-			hQ2Di[i][j] = new TH1D(Form("hQ2Di_%i_%i", i, j), "", 200, 0, 200);
-			hQ2Dw[i][j] = new TH1D(Form("hQ2Dw_%i_%i", i, j), "", 200, 0, 200);
+			hQ2Dr[i][j] = new TH1D(Form("hQ2Dr_%i_%i", i, j), "", 2000, 0, 2000);
+			hQ2Di[i][j] = new TH1D(Form("hQ2Di_%i_%i", i, j), "", 2000, 0, 2000);
+			hQ2Dw[i][j] = new TH1D(Form("hQ2Dw_%i_%i", i, j), "", 2000, 0, 2000);
 		}
 	}
 
