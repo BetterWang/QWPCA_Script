@@ -12,11 +12,13 @@ char const * fname[] = {
 	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_noeff_v1/161010_144827/0000/",				// 6 HIMB5 pp reco 0.3 < pT < 3.0 noeff
 	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_GEN_v1/161012_131811/0000/",		// 7 Hydjet GEN 0.3 < pT < 3.0 noeff
 	"../PCA/Hydjet_Quenched_MinBias_5020GeV_750/crab_Hydjet_PCA_pixel_eff_v2/161014_160213/0000/",		// 8 Hydjet pixel 0.3 < pT < 3.0 eff
-	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_eff_noff_v4/161019_180642/0000/",				// 9 PbPb15 HIMB5 noff 0.3 < pT < 3.0 eff
-	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_eff_noff_pT0550_v4/161020_081102/0000/",			// 10 PbPb15 HIMB5 noff 0.5 < pT < 5.0 eff
+	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_eff_noff_v5/161023_162336/0000/",				// 9 PbPb15 HIMB5 noff 0.3 < pT < 3.0 eff
+	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_eff_noff_pT0550_v5/161023_162358/0000/",			// 10 PbPb15 HIMB5 noff 0.5 < pT < 5.0 eff
 	"../PCA/PAHighPt/crab_pPb5_PCA_eff_noff_v1/161020_073626/0000/",					// 11 pPb5 HM noff 0.3 < pT < 3.0 eff
 	"../PCA/HIMinimumBias2/crab_HIMB2_PCA_pixel_eff_cent_v9/161020_142532/0000/",				// 12 PbPb15 HIMB2 pixel 0.3 < pT < 3.0 eff
 	"../PCA/HIMinimumBias2/crab_HIMB2_PCA_pixel_eff_cent_pT0550_v9/161020_174950/0000/",			// 13 PbPb15 HIMB2 pixel 0.5 < pT < 5.0 eff
+	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_noeff_noff_v5/161023_162438/0000/",			// 14 PbPb15 HIMB5 0.3 < pT < 3.0 noeff
+	"../PCA/HIMinimumBias5/crab_HIMB5_PCA_ppReco_noeff_noff_pT0550_v5/161023_162454/0000/",			// 15 PbPb15 HIMB5 0.5 < pT < 5.0 noeff
 };
 
 char const * ftxt[] = {
@@ -34,6 +36,8 @@ char const * ftxt[] = {
 	"txt/HM_pPb5_eff_noff/",				// 11
 	"txt/HIMB2_PCA_pixel_eff_cent_v9/",			// 12
 	"txt/HIMB2_PCA_pixel_eff_cent_pT0550_v9/",		// 13
+	"txt/HIMB5_PCA_ppReco_noeff_noff/",			// 14
+	"txt/HIMB5_PCA_ppReco_noeff_noff_pT0550/",		// 15
 };
 
 void addchain(int s1)
