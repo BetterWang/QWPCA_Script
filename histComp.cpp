@@ -1,9 +1,4 @@
 {
-//	TFile *f0 = new TFile("txt/HIMB5_PCA_ppReco_eff_v1/outputFit_Minuit2__2.root");
-//	TFile *f1 = new TFile("txt/HIMB5_PCA_ppReco_noeff_v1/outputFit_Minuit2__2.root");
-//	TFile *f0 = new TFile("txt/Hydjet_PCA_pixel_eff_v1/outputFit_Minuit2__2.root");
-//	TFile *f1 = new TFile("txt/Hydjet_PCA_GEN_noeff_v1//outputFit_Minuit2__2.root");
-
 	TFile *f0 = new TFile("txt/HIMB2_PCA_pixel_noeff_v6/outputFit_Minuit2__2.root");
 	TFile *f1 = new TFile("txt/HIMB2_PCA_pixel_noeff_v7/outputFit_Minuit2__2.root");
 
